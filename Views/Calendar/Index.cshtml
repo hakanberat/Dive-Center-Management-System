@@ -1,0 +1,272 @@
+@model IEnumerable<DiveCenterManager.ViewModels.CalendarReservationViewModel>
+
+@{
+    ViewData["Title"] = "Calendar";
+
+    var year = (int)ViewBag.Year;
+    var month = (int)ViewBag.Month;
+
+    var selectedMonth =
+        new DateTime(year, month, 1);
+
+    var previousMonth =
+        selectedMonth.AddMonths(-1);
+
+    var nextMonth =
+        selectedMonth.AddMonths(1);
+
+    var today =
+        DateTime.Today;
+
+    var daysInMonth =
+        DateTime.DaysInMonth(year, month);
+
+    // Haftayı Pazartesi'den başlatıyoruz.
+    var startOffset =
+        ((int)selectedMonth.DayOfWeek + 6) % 7;
+
+    var totalCells =
+        (int)Math.Ceiling(
+            (startOffset + daysInMonth) / 7.0) * 7;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h1 class="mb-1">Calendar</h1>
+
+        <p class="text-muted mb-0">
+            @selectedMonth.ToString("MMMM yyyy")
+        </p>
+    </div>
+
+    <a asp-controller="Reservations"
+       asp-action="Create"
+       class="btn btn-primary">
+        New Reservation
+    </a>
+
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+
+    <a asp-controller="Calendar"
+       asp-action="Index"
+       asp-route-year="@previousMonth.Year"
+       asp-route-month="@previousMonth.Month"
+       class="btn btn-outline-secondary">
+        ← Previous
+    </a>
+
+    <a asp-controller="Calendar"
+       asp-action="Index"
+       asp-route-year="@today.Year"
+       asp-route-month="@today.Month"
+       class="btn btn-outline-primary">
+        Today
+    </a>
+
+    <a asp-controller="Calendar"
+       asp-action="Index"
+       asp-route-year="@nextMonth.Year"
+       asp-route-month="@nextMonth.Month"
+       class="btn btn-outline-secondary">
+        Next →
+    </a>
+
+</div>
+
+<div class="card shadow-sm">
+
+    <div class="card-body p-0">
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered mb-0"
+                   style="table-layout: fixed;">
+
+                <thead class="table-light">
+
+                    <tr>
+                        <th class="text-center">Monday</th>
+                        <th class="text-center">Tuesday</th>
+                        <th class="text-center">Wednesday</th>
+                        <th class="text-center">Thursday</th>
+                        <th class="text-center">Friday</th>
+                        <th class="text-center">Saturday</th>
+                        <th class="text-center">Sunday</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @for (var cell = 0;
+                          cell < totalCells;
+                          cell += 7)
+                    {
+                        <tr>
+
+                            @for (var column = 0;
+                                  column < 7;
+                                  column++)
+                            {
+                                var cellIndex =
+                                    cell + column;
+
+                                var dayNumber =
+                                    cellIndex
+                                    - startOffset
+                                    + 1;
+
+                                if (dayNumber < 1
+                                    || dayNumber > daysInMonth)
+                                {
+                                    <td style="height: 150px;"
+                                        class="bg-light">
+                                    </td>
+                                }
+                                else
+                                {
+                                    var date =
+                                        new DateTime(
+                                            year,
+                                            month,
+                                            dayNumber);
+
+                                    var dayReservations =
+                                        Model
+                                            .Where(r =>
+                                                r.ReservationDate.Date
+                                                == date.Date)
+                                            .OrderBy(r =>
+                                                r.StartTime)
+                                            .ToList();
+
+                                    var isToday =
+                                        date.Date == today.Date;
+
+                                    <td style="height: 150px;
+                                               vertical-align: top;">
+
+                                        <div class="d-flex justify-content-between mb-2">
+
+                                            <strong class="@(isToday
+                                                ? "text-primary"
+                                                : "")">
+                                                @dayNumber
+                                            </strong>
+
+                                            @if (isToday)
+                                            {
+                                                <span class="badge bg-primary">
+                                                    Today
+                                                </span>
+                                            }
+
+                                        </div>
+
+                                        @foreach (var reservation
+                                            in dayReservations)
+                                        {
+                                            var statusClass =
+                                                reservation.Status switch
+                                                {
+                                                    "Pending"
+                                                        => "bg-warning text-dark",
+
+                                                    "Confirmed"
+                                                        => "bg-primary",
+
+                                                    "Completed"
+                                                        => "bg-success",
+
+                                                    "Cancelled"
+                                                        => "bg-secondary",
+
+                                                    "NoShow"
+                                                        => "bg-danger",
+
+                                                    _
+                                                        => "bg-secondary"
+                                                };
+
+                                            <a asp-controller="Reservations"
+                                               asp-action="Edit"
+                                               asp-route-id="@reservation.Id"
+                                               class="text-decoration-none">
+
+                                                <div class="border rounded p-2 mb-2">
+
+                                                    <div>
+
+                                                        <strong>
+                                                            @reservation.StartTime.ToString(@"hh\:mm")
+                                                        </strong>
+
+                                                        <span class="badge @statusClass ms-1">
+
+                                                            @(reservation.Status == "NoShow"
+                                                                ? "No Show"
+                                                                : reservation.Status)
+
+                                                        </span>
+
+                                                    </div>
+
+                                                    <div class="small mt-1">
+                                                        @reservation.ActivityName
+                                                    </div>
+
+                                                    @if (!string.IsNullOrWhiteSpace(
+                                                        reservation.DiveSiteName))
+                                                    {
+                                                        <div class="small text-muted">
+                                                            @reservation.DiveSiteName
+                                                        </div>
+                                                    }
+
+                                                    @if (!string.IsNullOrWhiteSpace(
+                                                        reservation.BoatName))
+                                                    {
+                                                        <div class="small text-muted">
+                                                            Boat:
+                                                            @reservation.BoatName
+                                                        </div>
+                                                    }
+
+                                                    @if (!string.IsNullOrWhiteSpace(
+                                                        reservation.StaffName))
+                                                    {
+                                                        <div class="small text-muted">
+                                                            Staff:
+                                                            @reservation.StaffName
+                                                        </div>
+                                                    }
+
+                                                    <div class="small text-muted">
+                                                        Participants:
+                                                        @reservation.ParticipantCount
+                                                    </div>
+
+                                                </div>
+
+                                            </a>
+                                        }
+
+                                    </td>
+                                }
+                            }
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>

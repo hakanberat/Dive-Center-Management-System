@@ -1,0 +1,377 @@
+@model DiveCenterManager.ViewModels.ReportsViewModel
+
+@{
+    ViewData["Title"] = "Reports";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h1 class="mb-1">Reports</h1>
+
+        <p class="text-muted mb-0">
+            Review reservations, participants, income and expenses.
+        </p>
+    </div>
+
+</div>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <div asp-validation-summary="ModelOnly"></div>
+    </div>
+}
+
+<div class="card shadow-sm mb-4">
+
+    <div class="card-body">
+
+        <form method="get"
+              asp-action="Index"
+              class="row g-3 align-items-end">
+
+            <div class="col-md-4">
+
+                <label class="form-label">
+                    Start Date
+                </label>
+
+                <input type="date"
+                       name="startDate"
+                       value="@Model.StartDate.ToString("yyyy-MM-dd")"
+                       class="form-control" />
+
+            </div>
+
+            <div class="col-md-4">
+
+                <label class="form-label">
+                    End Date
+                </label>
+
+                <input type="date"
+                       name="endDate"
+                       value="@Model.EndDate.ToString("yyyy-MM-dd")"
+                       class="form-control" />
+
+            </div>
+
+            <div class="col-md-4">
+
+                <button type="submit"
+                        class="btn btn-primary">
+                    Apply
+                </button>
+
+                <a asp-action="Index"
+                   class="btn btn-outline-secondary">
+                    Reset
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<div class="row g-3 mb-4">
+
+    <div class="col-md-6">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body">
+
+                <div class="text-muted">
+                    Reservations
+                </div>
+
+                <div class="display-6 fw-bold">
+                    @Model.ReservationCount
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-body">
+
+                <div class="text-muted">
+                    Participants
+                </div>
+
+                <div class="display-6 fw-bold">
+                    @Model.ParticipantCount
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row g-4 mb-4">
+
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-header bg-white">
+                <strong>Income</strong>
+            </div>
+
+            <div class="card-body">
+
+                @if (!Model.IncomeTotals.Any())
+                {
+                    <div class="text-muted">
+                        No income records for this period.
+                    </div>
+                }
+                else
+                {
+                    <table class="table mb-0">
+
+                        <thead>
+                            <tr>
+                                <th>Currency</th>
+                                <th class="text-end">Total</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var item in Model.IncomeTotals)
+                            {
+                                <tr>
+
+                                    <td>
+                                        <strong>@item.CurrencyCode</strong>
+
+                                        @if (!string.IsNullOrWhiteSpace(item.CurrencySymbol))
+                                        {
+                                            <span class="text-muted">
+                                                (@item.CurrencySymbol)
+                                            </span>
+                                        }
+                                    </td>
+
+                                    <td class="text-end">
+                                        @item.TotalAmount.ToString("N2")
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-header bg-white">
+                <strong>Expenses</strong>
+            </div>
+
+            <div class="card-body">
+
+                @if (!Model.ExpenseTotals.Any())
+                {
+                    <div class="text-muted">
+                        No expense records for this period.
+                    </div>
+                }
+                else
+                {
+                    <table class="table mb-0">
+
+                        <thead>
+                            <tr>
+                                <th>Currency</th>
+                                <th class="text-end">Total</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var item in Model.ExpenseTotals)
+                            {
+                                <tr>
+
+                                    <td>
+                                        <strong>@item.CurrencyCode</strong>
+
+                                        @if (!string.IsNullOrWhiteSpace(item.CurrencySymbol))
+                                        {
+                                            <span class="text-muted">
+                                                (@item.CurrencySymbol)
+                                            </span>
+                                        }
+                                    </td>
+
+                                    <td class="text-end">
+                                        @item.TotalAmount.ToString("N2")
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row g-4">
+
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-header bg-white">
+                <strong>Reservation Statuses</strong>
+            </div>
+
+            <div class="card-body">
+
+                @if (!Model.ReservationStatuses.Any())
+                {
+                    <div class="text-muted">
+                        No reservations for this period.
+                    </div>
+                }
+                else
+                {
+                    <table class="table mb-0">
+
+                        <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th class="text-end">Count</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var item in Model.ReservationStatuses)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @(item.Status == "NoShow"
+                                            ? "No Show"
+                                            : item.Status)
+                                    </td>
+
+                                    <td class="text-end">
+                                        @item.Count
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-6">
+
+        <div class="card shadow-sm h-100">
+
+            <div class="card-header bg-white">
+                <strong>Activities</strong>
+            </div>
+
+            <div class="card-body">
+
+                @if (!Model.Activities.Any())
+                {
+                    <div class="text-muted">
+                        No activity data for this period.
+                    </div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+
+                        <table class="table mb-0">
+
+                            <thead>
+                                <tr>
+                                    <th>Activity</th>
+                                    <th class="text-end">Reservations</th>
+                                    <th class="text-end">Participants</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                @foreach (var item in Model.Activities)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            <strong>
+                                                @item.ActivityName
+                                            </strong>
+                                        </td>
+
+                                        <td class="text-end">
+                                            @item.ReservationCount
+                                        </td>
+
+                                        <td class="text-end">
+                                            @item.ParticipantCount
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

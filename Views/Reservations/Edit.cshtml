@@ -1,0 +1,363 @@
+@model DiveCenterManager.ViewModels.ReservationEditViewModel
+
+@{
+    ViewData["Title"] = "Edit Reservation";
+}
+
+<h1>Edit Reservation</h1>
+
+<p class="text-muted">
+    Update reservation information.
+</p>
+
+<hr />
+
+<div class="row">
+
+    <div class="col-lg-8">
+
+        <form asp-action="Edit"
+              method="post">
+
+            <input asp-for="Id"
+                   type="hidden" />
+
+            <div asp-validation-summary="ModelOnly"
+                 class="alert alert-danger"
+                 role="alert">
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="ReservationDate"
+                           class="form-label">
+                        Date
+                    </label>
+
+                    <input asp-for="ReservationDate"
+                           type="date"
+                           class="form-control" />
+
+                    <span asp-validation-for="ReservationDate"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="StartTime"
+                           class="form-label">
+                        Start Time
+                    </label>
+
+                    <input asp-for="StartTime"
+                           type="time"
+                           class="form-control" />
+
+                    <span asp-validation-for="StartTime"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label asp-for="ActivityId"
+                       class="form-label">
+                    Activity
+                </label>
+
+                <select asp-for="ActivityId"
+                        class="form-select">
+
+                    @foreach (var activity in Model.AvailableActivities)
+                    {
+                        <option value="@activity.Id">
+                            @activity.Name
+                            -
+                            @activity.DefaultPrice.ToString("N2")
+                            @activity.CurrencyCode
+                        </option>
+                    }
+
+                </select>
+
+                <span asp-validation-for="ActivityId"
+                      class="text-danger">
+                </span>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label asp-for="DiveSiteId"
+                       class="form-label">
+                    Dive Site
+                </label>
+
+                <select asp-for="DiveSiteId"
+                        class="form-select">
+
+                    <option value="">
+                        No dive site
+                    </option>
+
+                    @foreach (var site in Model.AvailableDiveSites)
+                    {
+                        <option value="@site.Id">
+                            @site.Name
+                            @if (!string.IsNullOrWhiteSpace(site.Location))
+                            {
+                                <text> - @site.Location</text>
+                            }
+                        </option>
+                    }
+
+                </select>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label asp-for="ParticipantCount"
+                       class="form-label">
+                    Participants
+                </label>
+
+                <input asp-for="ParticipantCount"
+                       type="number"
+                       min="1"
+                       class="form-control" />
+
+                <span asp-validation-for="ParticipantCount"
+                      class="text-danger">
+                </span>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="BoatId"
+                           class="form-label">
+                        Boat
+                    </label>
+
+                    <select asp-for="BoatId"
+                            class="form-select">
+
+                        <option value="">
+                            No boat
+                        </option>
+
+                        @foreach (var boat in Model.AvailableBoats)
+                        {
+                            <option value="@boat.Id">
+                                @boat.Name - Capacity: @boat.Capacity
+                            </option>
+                        }
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="StaffId"
+                           class="form-label">
+                        Staff
+                    </label>
+
+                    <select asp-for="StaffId"
+                            class="form-select">
+
+                        <option value="">
+                            No staff assigned
+                        </option>
+
+                        @foreach (var person in Model.AvailableStaff)
+                        {
+                            <option value="@person.Id">
+                                @person.FirstName @person.LastName
+                            </option>
+                        }
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="mb-4">
+
+                <label asp-for="Notes"
+                       class="form-label">
+                    Notes
+                </label>
+
+                <textarea asp-for="Notes"
+                          class="form-control"
+                          rows="4">
+                </textarea>
+
+                <span asp-validation-for="Notes"
+                      class="text-danger">
+                </span>
+
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Save Changes
+            </button>
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const reservationId =
+                @Model.Id;
+
+            const dateInput =
+                document.getElementById("ReservationDate");
+
+            const participantInput =
+                document.getElementById("ParticipantCount");
+
+            const boatSelect =
+                document.getElementById("BoatId");
+
+            const staffSelect =
+                document.getElementById("StaffId");
+
+            async function loadAvailability() {
+
+                const reservationDate =
+                    dateInput.value;
+
+                let participantCount =
+                    parseInt(participantInput.value);
+
+                if (!reservationDate) {
+                    return;
+                }
+
+                if (!participantCount || participantCount < 1) {
+                    participantCount = 1;
+                }
+
+                const currentBoatId =
+                    boatSelect.value;
+
+                const currentStaffId =
+                    staffSelect.value;
+
+                const url =
+                    '@Url.Action("GetEditAvailability", "Reservations")'
+                    + '?reservationId='
+                    + encodeURIComponent(reservationId)
+                    + '&reservationDate='
+                    + encodeURIComponent(reservationDate)
+                    + '&participantCount='
+                    + encodeURIComponent(participantCount);
+
+                try {
+
+                    const response = await fetch(url);
+
+                    if (!response.ok) {
+                        throw new Error(
+                            "Availability could not be loaded.");
+                    }
+
+                    const data =
+                        await response.json();
+
+                    boatSelect.innerHTML =
+                        '<option value="">No boat</option>';
+
+                    data.boats.forEach(function (boat) {
+
+                        const option =
+                            document.createElement("option");
+
+                        option.value =
+                            boat.id;
+
+                        option.textContent =
+                            boat.name
+                            + " - Capacity: "
+                            + boat.capacity;
+
+                        if (
+                            boat.id.toString()
+                            === currentBoatId
+                        ) {
+                            option.selected = true;
+                        }
+
+                        boatSelect.appendChild(option);
+                    });
+
+                    staffSelect.innerHTML =
+                        '<option value="">No staff assigned</option>';
+
+                    data.staff.forEach(function (person) {
+
+                        const option =
+                            document.createElement("option");
+
+                        option.value =
+                            person.id;
+
+                        option.textContent =
+                            person.name;
+
+                        if (
+                            person.id.toString()
+                            === currentStaffId
+                        ) {
+                            option.selected = true;
+                        }
+
+                        staffSelect.appendChild(option);
+                    });
+
+                }
+                catch (error) {
+
+                    console.error(
+                        "Availability error:",
+                        error);
+                }
+            }
+
+            dateInput.addEventListener(
+                "change",
+                loadAvailability);
+
+            participantInput.addEventListener(
+                "change",
+                loadAvailability);
+
+        });
+    </script>
+}

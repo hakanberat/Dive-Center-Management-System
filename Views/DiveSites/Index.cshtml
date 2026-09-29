@@ -1,0 +1,184 @@
+@model IEnumerable<DiveCenterManager.Models.DiveSite>
+
+@{
+    ViewData["Title"] = "Dive Sites";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="mb-1">Dive Sites</h1>
+        <p class="text-muted mb-0">
+            Manage dive locations.
+        </p>
+    </div>
+
+    <a asp-action="Create"
+       class="btn btn-primary">
+        New Dive Site
+    </a>
+</div>
+<form method="get"
+      asp-action="Index"
+      class="row g-2 mb-4">
+
+    <div class="col-md-5">
+
+        <input type="text"
+               name="searchTerm"
+               value="@ViewBag.SearchTerm"
+               class="form-control"
+               placeholder="Search by name or location..." />
+
+    </div>
+
+    <div class="col-auto">
+
+        <button type="submit"
+                class="btn btn-outline-primary">
+            Search
+        </button>
+
+        <a asp-action="Index"
+           class="btn btn-outline-secondary">
+            Clear
+        </a>
+
+    </div>
+
+</form>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        @if (!Model.Any())
+        {
+            <div class="alert alert-info mb-0">
+                No dive sites found.
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Location</th>
+                            <th>Maximum Depth</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var diveSite in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <strong>@diveSite.Name</strong>
+                                </td>
+
+                                <td>
+                                    @(string.IsNullOrWhiteSpace(diveSite.Location)
+                                        ? "-"
+                                        : diveSite.Location)
+                                </td>
+
+                                <td>
+                                    @if (diveSite.MaximumDepthMeters.HasValue)
+                                    {
+                                        <span>
+                                            @diveSite.MaximumDepthMeters.Value.ToString("0.##") m
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span>-</span>
+                                    }
+                                </td>
+
+                                <td>
+                                    @(string.IsNullOrWhiteSpace(diveSite.Description)
+                                        ? "-"
+                                        : diveSite.Description)
+                                </td>
+
+                                <td>
+                                    @if (diveSite.IsActive)
+                                    {
+                                        <span class="badge bg-success">
+                                            Active
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">
+                                            Inactive
+                                        </span>
+                                    }
+                                </td>
+
+                                <td class="text-end">
+
+    <a asp-action="Edit"
+       asp-route-id="@diveSite.Id"
+       class="btn btn-sm btn-outline-primary">
+        Edit
+    </a>
+
+    @if (diveSite.IsActive)
+    {
+        <form asp-action="SetActiveStatus"
+              method="post"
+              class="d-inline">
+
+            <input type="hidden"
+                   name="id"
+                   value="@diveSite.Id" />
+
+            <input type="hidden"
+                   name="isActive"
+                   value="false" />
+
+            <button type="submit"
+                    class="btn btn-sm btn-outline-danger">
+                Deactivate
+            </button>
+
+        </form>
+    }
+    else
+    {
+        <form asp-action="SetActiveStatus"
+              method="post"
+              class="d-inline">
+
+            <input type="hidden"
+                   name="id"
+                   value="@diveSite.Id" />
+
+            <input type="hidden"
+                   name="isActive"
+                   value="true" />
+
+            <button type="submit"
+                    class="btn btn-sm btn-outline-success">
+                Activate
+            </button>
+
+        </form>
+    }
+
+</td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        }
+
+    </div>
+</div>

@@ -1,0 +1,164 @@
+@model IEnumerable<DiveCenterManager.ViewModels.StaffListItemViewModel>
+
+@{
+    ViewData["Title"] = "Staff";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h1 class="mb-1">Staff</h1>
+
+        <p class="text-muted mb-0">
+            Manage dive center staff and operational roles.
+        </p>
+    </div>
+
+    <a asp-action="Create"
+       class="btn btn-primary">
+        New Staff Member
+    </a>
+
+</div>
+
+<div class="card shadow-sm">
+
+    <div class="card-body">
+
+        <form method="get"
+              asp-action="Index"
+              class="row g-2 mb-4">
+
+            <div class="col-md-5">
+
+                <input type="text"
+                       name="searchTerm"
+                       value="@ViewBag.SearchTerm"
+                       class="form-control"
+                       placeholder="Search staff..." />
+
+            </div>
+
+            <div class="col-auto">
+
+                <button type="submit"
+                        class="btn btn-outline-primary">
+                    Search
+                </button>
+
+            </div>
+
+            <div class="col-auto">
+
+                <a asp-action="Index"
+                   class="btn btn-outline-secondary">
+                    Clear
+                </a>
+
+            </div>
+
+        </form>
+
+        @if (!Model.Any())
+        {
+            <div class="alert alert-info mb-0">
+                No staff members found.
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Roles</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Certification</th>
+                            <th>Instructor Number</th>
+                            <th>Status</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var person in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    <strong>@person.FullName</strong>
+                                </td>
+
+                                <td>
+                                    @(string.IsNullOrWhiteSpace(person.Roles)
+                                        ? "-"
+                                        : person.Roles)
+                                </td>
+
+                                <td>
+                                    @(string.IsNullOrWhiteSpace(person.Phone)
+                                        ? "-"
+                                        : person.Phone)
+                                </td>
+
+                                <td>
+                                    @(string.IsNullOrWhiteSpace(person.Email)
+                                        ? "-"
+                                        : person.Email)
+                                </td>
+
+                                <td>
+                                    @(string.IsNullOrWhiteSpace(person.CertificationAgency)
+                                        ? "-"
+                                        : person.CertificationAgency)
+                                </td>
+
+                                <td>
+                                    @(string.IsNullOrWhiteSpace(person.InstructorNumber)
+                                        ? "-"
+                                        : person.InstructorNumber)
+                                </td>
+
+                                <td>
+                                    @if (person.IsActive)
+                                    {
+                                        <span class="badge bg-success">
+                                            Active
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">
+                                            Inactive
+                                        </span>
+                                    }
+                                </td>
+
+                                <td class="text-end">
+
+                                    <a asp-action="Edit"
+                                       asp-route-id="@person.Id"
+                                       class="btn btn-sm btn-outline-primary">
+                                        Edit
+                                    </a>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+
+    </div>
+
+</div>

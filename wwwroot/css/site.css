@@ -1,0 +1,344 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+/* =========================================================
+   Dive Hub Management System
+   ========================================================= */
+
+:root {
+    --dh-navy: #08395c;
+    --dh-navy-dark: #052b47;
+    --dh-cyan: #35c4d3;
+    --dh-cyan-light: #69d7e0;
+
+    --dh-background: #f5f7fa;
+    --dh-sidebar-text: #d8e3ec;
+    --dh-sidebar-muted: #8fa8b9;
+
+    --dh-border: #e2e8ee;
+    --dh-text: #243746;
+    --dh-muted: #6c7b87;
+
+    --dh-sidebar-width: 260px;
+}
+
+
+/* General
+-------------------------------------------------- */
+
+body {
+    margin: 0;
+    background-color: var(--dh-background);
+    color: var(--dh-text);
+}
+
+
+/* Application Layout
+-------------------------------------------------- */
+
+.app-shell {
+    min-height: 100vh;
+    display: flex;
+}
+
+
+/* Sidebar
+-------------------------------------------------- */
+
+.app-sidebar {
+    width: var(--dh-sidebar-width);
+    min-height: 100vh;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    overflow-y: auto;
+
+    background:
+        linear-gradient(
+            180deg,
+            var(--dh-navy-dark) 0%,
+            var(--dh-navy) 100%
+        );
+
+    color: white;
+
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+/* Brand
+-------------------------------------------------- */
+
+.sidebar-brand {
+    min-height: 100px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 18px 20px;
+
+    text-decoration: none;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.sidebar-logo {
+    width: 58px;
+    height: 58px;
+
+    flex-shrink: 0;
+
+    object-fit: contain;
+
+    border-radius: 12px;
+}
+
+.sidebar-brand-text {
+    min-width: 0;
+}
+
+.sidebar-brand-title {
+    display: block;
+
+    color: white;
+
+    font-size: 1.15rem;
+    font-weight: 700;
+
+    line-height: 1.1;
+}
+
+.sidebar-brand-subtitle {
+    display: block;
+
+    margin-top: 4px;
+
+    color: var(--dh-cyan-light);
+
+    font-size: 0.78rem;
+    font-weight: 500;
+
+    letter-spacing: 0.04em;
+}
+
+
+/* Sidebar Navigation
+-------------------------------------------------- */
+
+.sidebar-navigation {
+    padding: 18px 12px;
+}
+
+.sidebar-section-title {
+    padding: 14px 12px 7px;
+
+    color: var(--dh-sidebar-muted);
+
+    font-size: 0.70rem;
+    font-weight: 700;
+
+    letter-spacing: 0.10em;
+
+    text-transform: uppercase;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+
+    min-height: 44px;
+
+    margin-bottom: 3px;
+    padding: 10px 12px;
+
+    color: var(--dh-sidebar-text);
+
+    text-decoration: none;
+
+    border-radius: 8px;
+
+    transition:
+        background-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.sidebar-link:hover {
+    color: white;
+
+    background-color: rgba(255, 255, 255, 0.09);
+}
+
+.sidebar-link.active {
+    color: white;
+
+    background-color: rgba(53, 196, 211, 0.18);
+
+    border-left: 3px solid var(--dh-cyan);
+}
+
+
+/* Main Area
+-------------------------------------------------- */
+
+.app-main {
+    width: calc(100% - var(--dh-sidebar-width));
+
+    min-height: 100vh;
+
+    margin-left: var(--dh-sidebar-width);
+}
+
+
+/* Header
+-------------------------------------------------- */
+
+.app-header {
+    min-height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 28px;
+
+    background-color: white;
+
+    border-bottom: 1px solid var(--dh-border);
+
+    position: sticky;
+    top: 0;
+
+    z-index: 100;
+}
+
+.app-header-title {
+    margin: 0;
+
+    font-size: 1.15rem;
+    font-weight: 600;
+
+    color: var(--dh-text);
+}
+
+.app-user {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+}
+
+.app-user-name {
+    color: var(--dh-text);
+
+    font-weight: 600;
+}
+
+
+/* Content
+-------------------------------------------------- */
+
+.app-content {
+    padding: 28px;
+}
+
+
+/* Cards
+-------------------------------------------------- */
+
+.card {
+    border-color: var(--dh-border);
+
+    border-radius: 10px;
+}
+
+.card.shadow-sm {
+    box-shadow:
+        0 2px 10px rgba(18, 43, 60, 0.06) !important;
+}
+
+
+/* Buttons
+-------------------------------------------------- */
+
+.btn-primary {
+    background-color: var(--dh-navy);
+    border-color: var(--dh-navy);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: var(--dh-navy-dark);
+    border-color: var(--dh-navy-dark);
+}
+
+
+/* Links
+-------------------------------------------------- */
+
+a {
+    color: var(--dh-navy);
+}
+
+a:hover {
+    color: var(--dh-navy-dark);
+}
+
+
+/* Mobile
+-------------------------------------------------- */
+
+@media (max-width: 991.98px) {
+
+    .app-sidebar {
+        width: 220px;
+
+        transform: translateX(-220px);
+    }
+
+    .app-main {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .app-header {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .app-content {
+        padding: 18px;
+    }
+}

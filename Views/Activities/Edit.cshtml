@@ -1,0 +1,106 @@
+@model DiveCenterManager.Models.DiveActivity
+
+@{
+    ViewData["Title"] = "Edit Activity";
+}
+
+<h1>Edit Activity</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+
+        <form asp-action="Edit" method="post">
+
+            <input asp-for="Id" type="hidden" />
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger mb-3">
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Name"
+                       class="form-label">
+                    Activity Name
+                </label>
+
+                <input asp-for="Name"
+                       class="form-control" />
+
+                <span asp-validation-for="Name"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="DefaultPrice"
+                       class="form-label">
+                    Price Per Person
+                </label>
+
+                <input asp-for="DefaultPrice"
+                       class="form-control" />
+
+                <span asp-validation-for="DefaultPrice"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="CurrencyId"
+                       class="form-label">
+                    Currency
+                </label>
+
+                <select asp-for="CurrencyId"
+                        asp-items="ViewBag.Currencies"
+                        class="form-select">
+
+                    <option value="">
+                        Select currency
+                    </option>
+
+                </select>
+
+                <span asp-validation-for="CurrencyId"
+                      class="text-danger">
+                </span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Description"
+                       class="form-label">
+                </label>
+
+                <textarea asp-for="Description"
+                          class="form-control"
+                          rows="4">
+                </textarea>
+            </div>
+
+            <div class="mb-3 form-check">
+
+                <input asp-for="IsActive"
+                       class="form-check-input" />
+
+                <label asp-for="IsActive"
+                       class="form-check-label">
+                </label>
+
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Save
+            </button>
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+</div>

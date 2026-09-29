@@ -1,0 +1,33 @@
+# Build outputs
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# VS Code
+.vscode/
+
+# Rider
+.idea/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local database files
+*.mdf
+*.ldf
+*.db
+*.sqlite
+*.sqlite3
+
+# Local secrets / environment files
+.env
+.env.*
+secrets.json

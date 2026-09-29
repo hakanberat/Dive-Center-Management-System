@@ -1,0 +1,341 @@
+﻿@{
+    var currentController =
+        ViewContext.RouteData.Values["controller"]?.ToString();
+
+    var pageTitle =
+        ViewData["Title"]?.ToString() ?? "Management System";
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <title>
+        @pageTitle - Dive Hub Management System
+    </title>
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+</head>
+
+<body>
+
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <div class="app-shell">
+
+        <!-- SIDEBAR -->
+        <aside class="app-sidebar">
+
+            @if (User.IsInRole("Admin"))
+            {
+                <a class="sidebar-brand"
+                   asp-controller="Dashboard"
+                   asp-action="Index">
+
+                    <img src="~/images/divehub-logo.png"
+                         alt="Dive Hub"
+                         class="sidebar-logo" />
+
+                    <span class="sidebar-brand-text">
+
+                        <span class="sidebar-brand-title">
+                            Dive Hub
+                        </span>
+
+                        <span class="sidebar-brand-subtitle">
+                            Management System
+                        </span>
+
+                    </span>
+
+                </a>
+            }
+            else
+            {
+                <a class="sidebar-brand"
+                   asp-controller="Reservations"
+                   asp-action="Index">
+
+                    <img src="~/images/divehub-logo.png"
+                         alt="Dive Hub"
+                         class="sidebar-logo" />
+
+                    <span class="sidebar-brand-text">
+
+                        <span class="sidebar-brand-title">
+                            Dive Hub
+                        </span>
+
+                        <span class="sidebar-brand-subtitle">
+                            Management System
+                        </span>
+
+                    </span>
+
+                </a>
+            }
+
+            <nav class="sidebar-navigation">
+
+                <!-- MAIN -->
+                <div class="sidebar-section-title">
+                    Main
+                </div>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-controller="Dashboard"
+                       asp-action="Index"
+                       class="sidebar-link @(currentController == "Dashboard" ? "active" : "")">
+
+                        Dashboard
+
+                    </a>
+                }
+
+                <a asp-controller="Reservations"
+                   asp-action="Index"
+                   class="sidebar-link @(currentController == "Reservations" ? "active" : "")">
+
+                    Reservations
+
+                </a>
+
+                <a asp-controller="Calendar"
+                   asp-action="Index"
+                   class="sidebar-link @(currentController == "Calendar" ? "active" : "")">
+
+                    Calendar
+
+                </a>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-controller="Reports"
+                       asp-action="Index"
+                       class="sidebar-link @(currentController == "Reports" ? "active" : "")">
+
+                        Reports
+
+                    </a>
+
+
+                    <!-- MANAGEMENT -->
+
+                    <div class="sidebar-section-title">
+                        Management
+                    </div>
+
+                    <a asp-controller="Activities"
+                       asp-action="Index"
+                       class="sidebar-link @(currentController == "Activities" ? "active" : "")">
+
+                        Activities
+
+                    </a>
+
+                    <a asp-controller="DiveSites"
+                       asp-action="Index"
+                       class="sidebar-link @(currentController == "DiveSites" ? "active" : "")">
+
+                        Dive Sites
+
+                    </a>
+
+                    <a asp-controller="Staff"
+                       asp-action="Index"
+                       class="sidebar-link @(currentController == "Staff" ? "active" : "")">
+
+                        Staff
+
+                    </a>
+
+                    <a asp-controller="Roles"
+                       asp-action="Index"
+                       class="sidebar-link @(currentController == "Roles" ? "active" : "")">
+
+                        Roles
+
+                    </a>
+
+                    <a asp-controller="Boats"
+                       asp-action="Index"
+                       class="sidebar-link @(currentController == "Boats" ? "active" : "")">
+
+                        Boats
+
+                    </a>
+
+                    <a asp-controller="Equipment"
+                       asp-action="Index"
+                       class="sidebar-link @(currentController == "Equipment" ? "active" : "")">
+
+                        Equipment
+
+                    </a>
+
+                    <a asp-controller="Users"
+                       asp-action="Index"
+                       class="sidebar-link @(currentController == "Users" ? "active" : "")">
+
+                        Users
+
+                    </a>
+
+
+                    <!-- FINANCE -->
+
+                    <div class="sidebar-section-title">
+                        Finance
+                    </div>
+
+                    <a asp-controller="Transactions"
+                       asp-action="Index"
+                       class="sidebar-link @(currentController == "Transactions" ? "active" : "")">
+
+                        Transactions
+
+                    </a>
+
+                    <a asp-controller="TransactionCategories"
+                       asp-action="Index"
+                       class="sidebar-link @(currentController == "TransactionCategories" ? "active" : "")">
+
+                        Transaction Categories
+
+                    </a>
+
+                    <a asp-controller="Currencies"
+                       asp-action="Index"
+                       class="sidebar-link @(currentController == "Currencies" ? "active" : "")">
+
+                        Currencies
+
+                    </a>
+                }
+
+            </nav>
+
+        </aside>
+
+
+        <!-- MAIN AREA -->
+        <div class="app-main">
+
+            <!-- HEADER -->
+            <header class="app-header">
+
+                <h1 class="app-header-title">
+                    @pageTitle
+                </h1>
+
+                <div class="app-user">
+
+                    <div class="text-end">
+
+                        <div class="app-user-name">
+
+                            @User.FindFirst("DisplayName")?.Value
+
+                        </div>
+
+                        <small class="text-muted">
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <span>Administrator</span>
+                            }
+                            else
+                            {
+                                <span>User</span>
+                            }
+
+                        </small>
+
+                    </div>
+
+                    <form asp-controller="Account"
+                          asp-action="Logout"
+                          method="post">
+
+                        <button type="submit"
+                                class="btn btn-outline-secondary btn-sm">
+
+                            Logout
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </header>
+
+
+            <!-- PAGE CONTENT -->
+            <main class="app-content">
+
+                @RenderBody()
+
+            </main>
+
+        </div>
+
+    </div>
+}
+else
+{
+    <!-- LOGIN / SETUP PAGES -->
+
+    <div class="container py-5">
+
+        <div class="text-center mb-4">
+
+            <img src="~/images/divehub-logo.png"
+                 alt="Dive Hub"
+                 style="width: 95px; height: 95px; object-fit: contain;" />
+
+            <h1 class="h4 mt-3 mb-1">
+                Dive Hub
+            </h1>
+
+            <div class="text-muted">
+                Management System
+            </div>
+
+        </div>
+
+        <main>
+            @RenderBody()
+        </main>
+
+    </div>
+}
+
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="~/js/site.js"
+        asp-append-version="true">
+</script>
+
+@await RenderSectionAsync(
+    "Scripts",
+    required: false)
+
+</body>
+
+</html>

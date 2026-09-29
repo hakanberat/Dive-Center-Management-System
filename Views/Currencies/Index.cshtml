@@ -1,0 +1,166 @@
+@model IEnumerable<DiveCenterManager.Models.Currency>
+
+@{
+    ViewData["Title"] = "Currencies";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h1 class="mb-1">Currencies</h1>
+
+        <p class="text-muted mb-0">
+            Manage currencies used by activities and financial transactions.
+        </p>
+    </div>
+
+    <a asp-action="Create"
+       class="btn btn-primary">
+        New Currency
+    </a>
+
+</div>
+
+<div class="card shadow-sm">
+
+    <div class="card-body">
+
+        <form method="get"
+              asp-action="Index"
+              class="row g-2 mb-4">
+
+            <div class="col-md-5">
+
+                <input type="text"
+                       name="searchTerm"
+                       value="@ViewBag.SearchTerm"
+                       class="form-control"
+                       placeholder="Search currencies..." />
+
+            </div>
+
+            <div class="col-auto">
+
+                <button type="submit"
+                        class="btn btn-outline-primary">
+                    Search
+                </button>
+
+            </div>
+
+            <div class="col-auto">
+
+                <a asp-action="Index"
+                   class="btn btn-outline-secondary">
+                    Clear
+                </a>
+
+            </div>
+
+        </form>
+
+        @if (!Model.Any())
+        {
+            <div class="alert alert-info mb-0">
+                No currencies found.
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Symbol</th>
+                            <th>Status</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var currency in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    <strong>@currency.Code</strong>
+                                </td>
+
+                                <td>
+                                    @currency.Name
+                                </td>
+
+                                <td>
+                                    @(string.IsNullOrWhiteSpace(currency.Symbol)
+                                        ? "-"
+                                        : currency.Symbol)
+                                </td>
+
+                                <td>
+                                    @if (currency.IsActive)
+                                    {
+                                        <span class="badge bg-success">
+                                            Active
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">
+                                            Inactive
+                                        </span>
+                                    }
+                                </td>
+
+                                <td class="text-end">
+
+                                    <a asp-action="Edit"
+                                       asp-route-id="@currency.Id"
+                                       class="btn btn-sm btn-outline-primary">
+                                        Edit
+                                    </a>
+
+                                    <form asp-action="ToggleActiveStatus"
+                                          method="post"
+                                          class="d-inline">
+
+                                        <input type="hidden"
+                                               name="id"
+                                               value="@currency.Id" />
+
+                                        @if (currency.IsActive)
+                                        {
+                                            <button type="submit"
+                                                    class="btn btn-sm btn-outline-danger">
+                                                Deactivate
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button type="submit"
+                                                    class="btn btn-sm btn-outline-success">
+                                                Activate
+                                            </button>
+                                        }
+
+                                    </form>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+
+    </div>
+
+</div>
