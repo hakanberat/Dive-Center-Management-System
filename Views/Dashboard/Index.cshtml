@@ -7,7 +7,9 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
 
     <div>
-        <h1 class="mb-1">Dashboard</h1>
+        <h1 class="dashboard-page-title mb-1">
+            Dashboard
+        </h1>
 
         <p class="text-muted mb-0">
             Dive center operational overview.
@@ -16,125 +18,212 @@
 
     <a asp-controller="Reservations"
        asp-action="Create"
-       class="btn btn-primary">
+       class="btn btn-primary dashboard-new-reservation">
+
+        <i class="bi bi-plus-lg me-1"></i>
+
         New Reservation
     </a>
 
 </div>
 
+
+<!-- STATISTICS -->
 <div class="row g-3 mb-4">
 
+    <!-- TODAY -->
     <div class="col-md-6 col-lg-4">
-        <div class="card shadow-sm h-100">
-            <div class="card-body">
 
-                <div class="text-muted">
+        <div class="dashboard-stat-card">
+
+            <div class="dashboard-stat-content">
+
+                <div class="dashboard-stat-label">
                     Today's Reservations
                 </div>
 
-                <div class="display-6 fw-bold">
+                <div class="dashboard-stat-value">
                     @Model.TodayReservationCount
                 </div>
 
             </div>
+
+            <div class="dashboard-stat-icon dashboard-stat-icon-primary">
+
+                <i class="bi bi-calendar-check"></i>
+
+            </div>
+
         </div>
+
     </div>
 
-    <div class="col-md-6 col-lg-4">
-        <div class="card shadow-sm h-100">
-            <div class="card-body">
 
-                <div class="text-muted">
+    <!-- PENDING -->
+    <div class="col-md-6 col-lg-4">
+
+        <div class="dashboard-stat-card">
+
+            <div class="dashboard-stat-content">
+
+                <div class="dashboard-stat-label">
                     Pending Reservations
                 </div>
 
-                <div class="display-6 fw-bold">
+                <div class="dashboard-stat-value">
                     @Model.PendingReservationCount
                 </div>
 
             </div>
+
+            <div class="dashboard-stat-icon dashboard-stat-icon-warning">
+
+                <i class="bi bi-hourglass-split"></i>
+
+            </div>
+
         </div>
+
     </div>
 
-    <div class="col-md-6 col-lg-4">
-        <div class="card shadow-sm h-100">
-            <div class="card-body">
 
-                <div class="text-muted">
+    <!-- CONFIRMED -->
+    <div class="col-md-6 col-lg-4">
+
+        <div class="dashboard-stat-card">
+
+            <div class="dashboard-stat-content">
+
+                <div class="dashboard-stat-label">
                     Confirmed Reservations
                 </div>
 
-                <div class="display-6 fw-bold">
+                <div class="dashboard-stat-value">
                     @Model.ConfirmedReservationCount
                 </div>
 
             </div>
+
+            <div class="dashboard-stat-icon dashboard-stat-icon-success">
+
+                <i class="bi bi-check2-circle"></i>
+
+            </div>
+
         </div>
+
     </div>
 
-    <div class="col-md-6 col-lg-4">
-        <div class="card shadow-sm h-100">
-            <div class="card-body">
 
-                <div class="text-muted">
+    <!-- STAFF -->
+    <div class="col-md-6 col-lg-4">
+
+        <div class="dashboard-stat-card">
+
+            <div class="dashboard-stat-content">
+
+                <div class="dashboard-stat-label">
                     Active Staff
                 </div>
 
-                <div class="display-6 fw-bold">
+                <div class="dashboard-stat-value">
                     @Model.ActiveStaffCount
                 </div>
 
             </div>
+
+            <div class="dashboard-stat-icon dashboard-stat-icon-primary">
+
+                <i class="bi bi-people"></i>
+
+            </div>
+
         </div>
+
     </div>
 
-    <div class="col-md-6 col-lg-4">
-        <div class="card shadow-sm h-100">
-            <div class="card-body">
 
-                <div class="text-muted">
+    <!-- BOATS -->
+    <div class="col-md-6 col-lg-4">
+
+        <div class="dashboard-stat-card">
+
+            <div class="dashboard-stat-content">
+
+                <div class="dashboard-stat-label">
                     Active Boats
                 </div>
 
-                <div class="display-6 fw-bold">
+                <div class="dashboard-stat-value">
                     @Model.ActiveBoatCount
                 </div>
 
             </div>
+
+            <div class="dashboard-stat-icon dashboard-stat-icon-cyan">
+
+                <i class="bi bi-water"></i>
+
+            </div>
+
         </div>
+
     </div>
 
-    <div class="col-md-6 col-lg-4">
-        <div class="card shadow-sm h-100">
-            <div class="card-body">
 
-                <div class="text-muted">
+    <!-- EQUIPMENT -->
+    <div class="col-md-6 col-lg-4">
+
+        <div class="dashboard-stat-card">
+
+            <div class="dashboard-stat-content">
+
+                <div class="dashboard-stat-label">
                     Active Equipment
                 </div>
 
-                <div class="display-6 fw-bold">
+                <div class="dashboard-stat-value">
                     @Model.ActiveEquipmentCount
                 </div>
 
             </div>
+
+            <div class="dashboard-stat-icon dashboard-stat-icon-secondary">
+
+                <i class="bi bi-tools"></i>
+
+            </div>
+
         </div>
+
     </div>
 
 </div>
 
-<div class="card shadow-sm">
+
+<!-- TODAY'S RESERVATIONS -->
+<div class="card shadow-sm dashboard-reservations-card">
 
     <div class="card-header bg-white">
 
         <div class="d-flex justify-content-between align-items-center">
 
-            <strong>
-                Today's Reservations
-            </strong>
+            <div class="d-flex align-items-center gap-2">
+
+                <i class="bi bi-calendar-day text-primary"></i>
+
+                <strong>
+                    Today's Reservations
+                </strong>
+
+            </div>
 
             <a asp-controller="Calendar"
                asp-action="Index"
                class="btn btn-sm btn-outline-primary">
+
+                <i class="bi bi-calendar3 me-1"></i>
+
                 Open Calendar
             </a>
 
@@ -146,8 +235,14 @@
 
         @if (!Model.TodayReservations.Any())
         {
-            <div class="alert alert-info mb-0">
-                No reservations scheduled for today.
+            <div class="dashboard-empty-state">
+
+                <i class="bi bi-calendar-x"></i>
+
+                <div>
+                    No reservations scheduled for today.
+                </div>
+
             </div>
         }
         else
@@ -165,7 +260,9 @@
                             <th>Staff</th>
                             <th>Participants</th>
                             <th>Status</th>
-                            <th class="text-end">Actions</th>
+                            <th class="text-end">
+                                Actions
+                            </th>
                         </tr>
                     </thead>
 
@@ -186,19 +283,22 @@
                                 </td>
 
                                 <td>
-                                    @(string.IsNullOrWhiteSpace(reservation.DiveSiteName)
+                                    @(string.IsNullOrWhiteSpace(
+                                        reservation.DiveSiteName)
                                         ? "-"
                                         : reservation.DiveSiteName)
                                 </td>
 
                                 <td>
-                                    @(string.IsNullOrWhiteSpace(reservation.BoatName)
+                                    @(string.IsNullOrWhiteSpace(
+                                        reservation.BoatName)
                                         ? "-"
                                         : reservation.BoatName)
                                 </td>
 
                                 <td>
-                                    @(string.IsNullOrWhiteSpace(reservation.StaffName)
+                                    @(string.IsNullOrWhiteSpace(
+                                        reservation.StaffName)
                                         ? "-"
                                         : reservation.StaffName)
                                 </td>
@@ -212,21 +312,43 @@
                                     @switch (reservation.Status)
                                     {
                                         case "Pending":
+
                                             <span class="badge bg-warning text-dark">
                                                 Pending
                                             </span>
+
                                             break;
 
                                         case "Confirmed":
+
                                             <span class="badge bg-primary">
                                                 Confirmed
                                             </span>
+
                                             break;
 
                                         case "Completed":
+
                                             <span class="badge bg-success">
                                                 Completed
                                             </span>
+
+                                            break;
+
+                                        case "Cancelled":
+
+                                            <span class="badge bg-secondary">
+                                                Cancelled
+                                            </span>
+
+                                            break;
+
+                                        case "NoShow":
+
+                                            <span class="badge bg-danger">
+                                                No Show
+                                            </span>
+
                                             break;
                                     }
 
@@ -238,6 +360,9 @@
                                        asp-action="Edit"
                                        asp-route-id="@reservation.Id"
                                        class="btn btn-sm btn-outline-primary">
+
+                                        <i class="bi bi-pencil"></i>
+
                                         Edit
                                     </a>
 
