@@ -1,51 +1,66 @@
-# Dive Center Manager
+# Dive Center Management System
 
-A web-based **Scuba Diving Center Management System** developed with **ASP.NET Core MVC, .NET 10, Dapper, and Microsoft SQL Server**.
+**Developed: 2026**
 
-The application is designed to manage the daily operational and administrative processes of a scuba diving center, including reservations, staff, boats, dive sites, equipment, financial transactions, reporting, and user authorization.
+A web-based scuba diving center management system built with **.NET 10, ASP.NET Core MVC, Dapper, and Microsoft SQL Server**.
 
-The project uses **Dive Hub** branding and is based on real-world scuba diving center workflows.
+The application is designed around real-world dive center workflows and manages reservations, staff, boats, dive sites, activities, equipment, financial transactions, reporting, and application users from a single web interface.
 
----
+The project uses Dive Hub branding and was developed as a portfolio project based on practical scuba diving center operations.
 
 ## Features
 
-### Dashboard
+- Reservation management
+- Monthly reservation calendar
+- Dive activity management
+- Dive site management
+- Staff management
+- Operational role assignments
+- Boat management
+- Equipment management
+- Financial transactions
+- Transaction categories
+- Multiple currencies
+- Operational and financial reports
+- User management
+- Role-based authorization
+- Secure password hashing
+- Cookie authentication
+- Dashboard statistics
 
-The dashboard provides a quick overview of daily dive center operations.
+## Dashboard
 
-It includes:
+The dashboard provides a quick overview of dive center operations, including:
 
 - Today's reservations
 - Pending reservations
 - Confirmed reservations
-- Active staff count
-- Active boat count
-- Active equipment count
+- Active staff
+- Active boats
+- Active equipment
 - Today's reservation list
-- Quick access to new reservations
-- Quick access to the calendar
-
----
+- Quick access to reservations and calendar
 
 ## Reservations
 
-The reservation module is the core operational part of the system.
+The reservation module is the core operational component of the system.
 
-Users can:
+Reservations can include:
 
-- Create reservations
-- Edit reservations
-- Assign activities
-- Select dive sites
-- Assign boats
-- Assign staff members
-- Define participant count
-- Set reservation date and start time
-- Add notes
-- Manage reservation status
+- Activity
+- Dive site
+- Boat
+- Staff member
+- Participant count
+- Reservation date
+- Start time
+- Notes
+- Status
+- Unit price
+- Currency
+- Total amount
 
-Supported reservation statuses:
+Supported statuses include:
 
 - Pending
 - Confirmed
@@ -53,84 +68,47 @@ Supported reservation statuses:
 - Cancelled
 - No Show
 
-Reservation prices are automatically calculated using:
+Reservation totals are calculated using:
 
-```text
 Total Amount = Unit Price × Participant Count
-```
 
----
-
-## Reservation Price Snapshots
+## Historical Price Preservation
 
 Activity prices may change over time.
 
-To preserve historical financial accuracy, the application stores the activity price and currency directly inside each reservation when the reservation is created.
+To preserve historical reservation values, the application stores a price snapshot when a reservation is created.
 
-For example:
+Example:
 
-```text
 Boat Dive
-Current price: 80 EUR
-
-Reservation:
-2 participants
 Unit Price: 80 EUR
-Total Amount: 160 EUR
-```
+Participants: 2
+Total: 160 EUR
 
-If the activity price is later changed to:
-
-```text
-100 EUR
-```
-
-the historical reservation remains:
-
-```text
-Unit Price: 80 EUR
-Total Amount: 160 EUR
-```
-
-New reservations use the new activity price.
-
----
+If the activity price later changes, the original reservation keeps its stored historical price.
 
 ## Resource Availability
 
-The system prevents operational conflicts when assigning boats and staff.
+The system includes operational rules that help prevent resource conflicts.
 
-### Boat Rules
+### Boats
 
-- A boat can only be assigned to one active reservation per day.
-- Boat capacity must be equal to or greater than the number of participants.
-- Inactive boats cannot be assigned to new reservations.
+- A boat cannot be assigned to multiple active reservations on the same day
+- Boat capacity must support the reservation participant count
+- Inactive boats cannot be assigned to new reservations
 
-### Staff Rules
+### Staff
 
-- A staff member can only be assigned to one active reservation per day.
-- Inactive staff members cannot be assigned to new reservations.
+- A staff member cannot be assigned to multiple active reservations on the same day
+- Inactive staff members cannot be assigned to new reservations
 
-The following reservation statuses block resources:
-
-- Pending
-- Confirmed
-- Completed
-
-The following statuses release resources:
-
-- Cancelled
-- No Show
-
-Availability is checked both in the user interface and on the server side.
-
----
+Cancelled and No Show reservations release assigned resources.
 
 ## Calendar
 
 The application includes a monthly reservation calendar.
 
-Reservations are displayed according to their reservation dates and can include:
+Calendar entries can display:
 
 - Activity
 - Dive site
@@ -140,15 +118,13 @@ Reservations are displayed according to their reservation dates and can include:
 - Start time
 - Reservation status
 
-Reservations can be opened directly from the calendar for editing.
-
----
+Reservations can be opened from the calendar for further management.
 
 ## Activities
 
-The Activities module manages the services offered by the dive center.
+Dive center services can be managed through the Activities module.
 
-Example activities:
+Examples include:
 
 - Try Dive
 - Shore Dive
@@ -156,23 +132,17 @@ Example activities:
 - Night Dive
 - Open Water Diver Course
 
-Each activity includes:
+Each activity can include:
 
 - Name
-- Default price
+- Price
 - Currency
 - Description
 - Active / inactive status
 
-Only active activities with active currencies can be selected for new reservations.
-
----
-
 ## Dive Sites
 
-The Dive Sites module manages diving locations.
-
-Each dive site can contain:
+Dive sites can include:
 
 - Name
 - Location
@@ -182,20 +152,9 @@ Each dive site can contain:
 - Description
 - Active / inactive status
 
-Example dive sites may include:
-
-- Palm Beach
-- Tomofil
-- Ray Cave
-- Kocareis
-
----
-
 ## Staff
 
-The Staff module manages diving center personnel.
-
-Each staff member can contain:
+Staff records can include:
 
 - First name
 - Last name
@@ -206,13 +165,11 @@ Each staff member can contain:
 - Notes
 - Active / inactive status
 
----
-
 ## Operational Roles
 
-Staff members can have multiple operational roles through a many-to-many relationship.
+Staff members can have multiple operational roles.
 
-Available operational roles may include:
+Examples:
 
 - Instructor
 - Chief Instructor
@@ -227,24 +184,16 @@ Operational roles are separate from application authorization roles.
 
 For example:
 
-```text
-Operational Role:
+Operational Roles:
 Instructor
 Captain
-Divemaster
 
 System Role:
 Admin
-User
-```
-
----
 
 ## Boats
 
-The Boats module manages dive center boats.
-
-Each boat can contain:
+Boat records can include:
 
 - Name
 - Registration number
@@ -252,13 +201,9 @@ Each boat can contain:
 - Notes
 - Active / inactive status
 
-Boat capacity is automatically considered when creating reservations.
-
----
+Boat capacity is considered during reservation creation.
 
 ## Equipment
-
-The Equipment module manages dive center equipment.
 
 Equipment records can include:
 
@@ -271,25 +216,17 @@ Equipment records can include:
 - Notes
 - Active / inactive status
 
----
-
 ## Finance
 
-The application includes basic financial management.
-
-The finance section contains:
+The application includes basic financial management through:
 
 - Transactions
 - Transaction Categories
 - Currencies
 
----
-
-## Transactions
-
 Transactions can be recorded as income or expenses.
 
-Each transaction contains:
+Each transaction can include:
 
 - Transaction date
 - Category
@@ -297,68 +234,22 @@ Each transaction contains:
 - Currency
 - Description
 
-Transactions can be:
+## Multiple Currencies
 
-- Created
-- Edited
-- Deleted
-
----
-
-## Transaction Categories
-
-Transaction categories define whether a transaction represents income or an expense.
-
-Example categories:
-
-```text
-Dive Income
-Course Income
-Fuel
-Maintenance
-```
-
-Each category has one of the following types:
-
-```text
-Income
-Expense
-```
-
----
-
-## Currencies
-
-The application supports multiple currencies.
-
-Example currencies:
+The application supports independent currencies such as:
 
 - TRY
 - EUR
 - USD
 - GBP
 
-Currencies are managed independently.
+Currencies are intentionally not automatically converted.
 
-The application intentionally does **not** automatically convert currencies.
-
-For example:
-
-```text
-100 EUR
-5000 TRY
-200 USD
-```
-
-remain separate financial values.
-
----
+Financial totals remain grouped by currency.
 
 ## Reports
 
-The Reports module provides operational and financial summaries for a selected date range.
-
-Reports include:
+Reports can provide operational and financial summaries for a selected date range, including:
 
 - Reservation count
 - Participant count
@@ -367,191 +258,69 @@ Reports include:
 - Income totals by currency
 - Expense totals by currency
 
-Because currencies are not automatically converted, financial totals remain grouped by currency.
-
----
-
-## User Management
-
-The system contains its own application user management system.
-
-Application users are stored in the:
-
-```text
-AppUsers
-```
-
-table.
-
-Two system roles are supported:
-
-### Admin
-
-Administrators have access to:
-
-- Dashboard
-- Reservations
-- Calendar
-- Reports
-- Activities
-- Dive Sites
-- Staff
-- Roles
-- Boats
-- Equipment
-- Users
-- Transactions
-- Transaction Categories
-- Currencies
-
-### User
-
-Standard users have access to:
-
-- Reservations
-- Calendar
-
----
-
-## Authentication
+## Authentication and Authorization
 
 The application uses **ASP.NET Core Cookie Authentication**.
 
-Users log in using:
+Passwords are hashed using ASP.NET Core `PasswordHasher` and are not stored as plain text.
 
-- Username
-- Password
+The system supports:
 
-Passwords are never stored in plain text.
+### Admin
 
-ASP.NET Core `PasswordHasher` is used to securely generate password hashes.
+Administrators can access and manage the full application.
 
----
+### User
 
-## Authentication Security
+Standard users have limited access focused on reservations and calendar operations.
 
-The authentication system includes several security mechanisms.
+## Session Security
 
-### Password Hashing
+Authentication includes additional session validation.
 
-Passwords are stored only as hashes.
+The application checks:
 
-The original password cannot be retrieved from the database.
+- User active status
+- Current system role
+- Security version
 
-### Active / Inactive Users
+Important account changes can invalidate existing authentication sessions.
 
-Administrators can activate or deactivate user accounts.
+Examples include:
 
-Inactive users cannot log in.
+- User deactivation
+- Role changes
+- Password reset
 
-If an already logged-in user is deactivated, their existing session is invalidated.
-
-### Role Changes
-
-If an administrator changes another user's system role, the user's existing authentication session becomes invalid.
-
-The user must log in again to receive the new authorization permissions.
-
-### Password Reset
-
-Administrators can reset user passwords.
-
-The existing password is never displayed.
-
-After a password reset:
-
-```text
-SecurityVersion
-```
-
-is incremented.
-
-Existing login sessions become invalid and the user must log in again using the new password.
-
-### Security Version
-
-Authentication cookies contain the user's current security version.
-
-Example:
-
-```text
-Cookie SecurityVersion: 1
-Database SecurityVersion: 2
-```
-
-If these values do not match, the authentication cookie is rejected.
-
-This allows the application to invalidate old login sessions after important account changes.
-
-### Last Administrator Protection
-
-The system prevents the final active administrator from being:
-
-- Deactivated
-- Changed from Admin to User
-
-This ensures that the application cannot accidentally be left without an administrator.
-
-### Duplicate Username Protection
-
-Usernames must be unique.
-
-The application validates duplicate usernames during both:
-
-- User creation
-- User editing
-
----
+The system also protects the final active administrator from being removed or demoted.
 
 ## Initial Administrator Setup
 
-When the database contains no application users, the first administrator can be created from:
+If no application user exists, the first administrator can be created through:
 
-```text
 /Account/Setup
-```
 
-The administrator provides:
+The password is hashed before being stored.
 
-- Username
-- Display name
-- Password
-- Password confirmation
+Additional users can then be managed by administrators.
 
-The password is hashed before being stored in the database.
+## Soft Delete Strategy
 
-Once the first user exists, the initial setup page redirects to the login page.
+Master data generally uses an `IsActive` status instead of permanent deletion.
 
-Additional users are managed by administrators through:
+This helps preserve historical references while preventing inactive records from being used in new operations.
 
-```text
-Management → Users
-```
+Examples include:
 
----
-
-## User Administration
-
-Administrators can:
-
-- Create users
-- Edit usernames
-- Edit display names
-- Change system roles
-- Reset passwords
-- Activate users
-- Deactivate users
-
-The Users page displays:
-
-- Username
-- Display name
-- Role
-- Status
-- Creation date
-- Actions
-
----
+- Staff
+- Boats
+- Activities
+- Dive Sites
+- Equipment
+- Roles
+- Currencies
+- Transaction Categories
+- Users
 
 ## Technology Stack
 
@@ -563,11 +332,11 @@ The Users page displays:
 - ASP.NET Core Cookie Authentication
 - ASP.NET Core PasswordHasher
 
-### Database
+### Data Access
 
-- Microsoft SQL Server
 - Dapper
 - Microsoft.Data.SqlClient
+- Microsoft SQL Server
 
 ### Frontend
 
@@ -577,7 +346,7 @@ The Users page displays:
 - JavaScript
 - Bootstrap
 
-### Development Tools
+### Development
 
 - Visual Studio Code
 - PowerShell
@@ -585,439 +354,178 @@ The Users page displays:
 - Git
 - GitHub
 
----
-
 ## Architecture
 
-The application uses a simple service-based architecture:
+The project uses a service-based MVC architecture:
 
-```text
 Browser
-   ↓
+   |
+   v
 ASP.NET Core MVC
-   ↓
+   |
+   v
 Controllers
-   ↓
+   |
+   v
 Services
-   ↓
+   |
+   v
 Dapper
-   ↓
+   |
+   v
 Microsoft SQL Server
-```
 
-The application intentionally uses **Dapper instead of Entity Framework Core**.
-
-This allows the project to work directly with SQL queries and database structures.
-
----
+The application intentionally uses **Dapper instead of Entity Framework Core** to work directly with SQL queries and database structures.
 
 ## Project Structure
 
-```text
 DiveCenterManager
-│
-├── Controllers
-│
-│   ├── AccountController.cs
-│   ├── ActivitiesController.cs
-│   ├── BoatsController.cs
-│   ├── CalendarController.cs
-│   ├── CurrenciesController.cs
-│   ├── DashboardController.cs
-│   ├── DiveSitesController.cs
-│   ├── EquipmentController.cs
-│   ├── ReportsController.cs
-│   ├── ReservationsController.cs
-│   ├── RolesController.cs
-│   ├── StaffController.cs
-│   ├── TransactionCategoriesController.cs
-│   ├── TransactionsController.cs
-│   └── UsersController.cs
-│
-├── Data
-│   └── SqlConnectionFactory.cs
-│
-├── Models
-│
-├── Services
-│
-├── ViewModels
-│
-├── Views
-│
-├── wwwroot
-│   ├── css
-│   ├── images
-│   ├── js
-│   └── lib
-│
-├── Program.cs
-├── appsettings.json
-├── appsettings.Development.json
-└── DiveCenterManager.csproj
-```
-
----
+|
+|-- Controllers
+|-- Data
+|-- Models
+|-- Services
+|-- ViewModels
+|-- Views
+|-- wwwroot
+|-- Program.cs
+|-- appsettings.json
+`-- DiveCenterManager.csproj
 
 ## Database
 
-The project uses:
+The project uses Microsoft SQL Server.
 
-```text
-Microsoft SQL Server
-```
+Default local database name:
 
-Default database name:
-
-```text
 DiveCenterDb
-```
 
-Development connection string:
+The current development connection uses a local SQL Server Express instance with Windows authentication.
 
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost\\SQLEXPRESS;Database=DiveCenterDb;Trusted_Connection=True;TrustServerCertificate=True;"
-  }
-}
-```
+The database includes domain tables for areas such as:
 
-The project uses Windows authentication for the local SQL Server connection.
-
----
-
-## Database Structure
-
-The database currently contains tables including:
-
-```text
-Activities
-AppUsers
-Boats
-Currencies
-DiveSites
-Equipment
-Reservations
-Roles
-Staff
-StaffRoles
-TransactionCategories
-Transactions
-```
-
----
+- Activities
+- AppUsers
+- Boats
+- Currencies
+- DiveSites
+- Equipment
+- Reservations
+- Roles
+- Staff
+- StaffRoles
+- TransactionCategories
+- Transactions
 
 ## Running the Application
 
-### Requirements
-
-Install:
+Requirements:
 
 - .NET 10 SDK
 - Microsoft SQL Server
 - SQL Server Management Studio or another SQL Server client
 - Git
 
----
+Clone the repository:
 
-### Clone the Repository
-
-```bash
 git clone https://github.com/hakanberat/DiveCenterManager.git
-```
 
----
+Enter the project directory:
 
-### Enter the Project Directory
-
-```bash
 cd DiveCenterManager
-```
 
----
+Restore packages:
 
-### Restore Dependencies
-
-```bash
 dotnet restore
-```
 
----
+Build:
 
-### Build the Application
-
-```bash
 dotnet build
-```
 
----
+Run:
 
-### Run the Application
-
-```bash
 dotnet run
-```
 
-ASP.NET Core will display the local application address in the terminal.
+The application will display its local address in the terminal.
 
 Example:
 
-```text
 http://localhost:5098
-```
 
----
-
-## First Run
-
-Before running the application, create the SQL Server database and required tables.
-
-The project will include a database setup script under:
-
-```text
-Database/DiveCenterDb.sql
-```
-
-After the database has been created, run:
-
-```bash
-dotnet run
-```
-
-Then open:
-
-```text
-/Account/Setup
-```
-
-to create the first administrator account.
-
----
+The SQL Server database and required tables must be created before normal application use.
 
 ## Main Business Rules
 
-The application implements several real-world scuba diving center business rules.
+The project implements business rules based on practical dive center operations.
 
 ### Reservations
 
-- Participant count must be greater than zero.
-- Reservation prices are calculated automatically.
-- Historical prices are preserved.
-- Reservations have defined operational statuses.
+- Participant count must be valid
+- Reservation totals are calculated automatically
+- Historical reservation prices are preserved
+- Reservations use defined operational statuses
 
 ### Boats
 
-- Boats cannot be double-booked on the same day.
-- Boat capacity must support the reservation participant count.
-- Inactive boats cannot be assigned to new reservations.
+- Same-day double booking is prevented
+- Capacity must support participant count
+- Inactive boats cannot be assigned
 
 ### Staff
 
-- Staff members cannot be double-booked on the same day.
-- Inactive staff members cannot be assigned to new reservations.
-
-### Reservation Status
-
-The following statuses block operational resources:
-
-```text
-Pending
-Confirmed
-Completed
-```
-
-The following statuses release operational resources:
-
-```text
-Cancelled
-No Show
-```
+- Same-day double booking is prevented
+- Inactive staff cannot be assigned
 
 ### Finance
 
-- Income and expense transactions are stored separately by category.
-- Currency conversion is not automatically performed.
-- Historical transaction currency values remain unchanged.
+- Income and expenses use categories
+- Currencies are stored independently
+- Automatic currency conversion is not performed
 
 ### Users
 
-- Usernames must be unique.
-- Passwords are securely hashed.
-- Inactive users cannot log in.
-- Role changes invalidate existing sessions.
-- Password resets invalidate existing sessions.
-- At least one active Admin must always remain.
-
----
+- Usernames must be unique
+- Passwords are hashed
+- Inactive users cannot log in
+- Role changes invalidate sessions
+- Password resets invalidate sessions
+- At least one active administrator must remain
 
 ## User Interface
 
-The project includes a custom **Dive Hub Management System** interface.
-
-The interface contains:
+The project includes a custom Dive Hub management interface with:
 
 - Dive Hub branding
-- Dive Hub logo
-- Dark blue sidebar navigation
-- Turquoise accent colors
+- Sidebar navigation
 - Dashboard cards
 - Role-based navigation
 - Responsive Bootstrap components
 - Dedicated login interface
 
-The visual identity is inspired by the Dive Hub brand.
+## Development Status
 
----
+The project is actively developed and already includes the core modules required for a functional dive center management system.
 
-## Navigation
-
-### Admin Navigation
-
-```text
-Main
-├── Dashboard
-├── Reservations
-├── Calendar
-└── Reports
-
-Management
-├── Activities
-├── Dive Sites
-├── Staff
-├── Roles
-├── Boats
-├── Equipment
-└── Users
-
-Finance
-├── Transactions
-├── Transaction Categories
-└── Currencies
-```
-
-### User Navigation
-
-```text
-Reservations
-Calendar
-```
-
----
-
-## Reservation Workflow
-
-Typical reservation workflow:
-
-```text
-New Reservation
-      ↓
-Pending
-      ↓
-Confirmed
-      ↓
-Completed
-```
-
-Reservations may also become:
-
-```text
-Cancelled
-No Show
-```
-
----
-
-## Example Operational Flow
-
-A typical scuba diving center workflow supported by the application:
-
-```text
-Customer requests a dive
-        ↓
-Reservation created
-        ↓
-Activity selected
-        ↓
-Participant count entered
-        ↓
-Available boat selected
-        ↓
-Available instructor selected
-        ↓
-Dive site assigned
-        ↓
-Reservation confirmed
-        ↓
-Dive completed
-        ↓
-Reservation marked Completed
-```
-
----
-
-## Soft Delete Strategy
-
-Master data is generally not permanently deleted.
-
-Instead, records use:
-
-```text
-IsActive
-```
-
-This allows historical records to remain valid even if a resource is no longer available.
-
-Examples:
-
-- Staff
-- Boats
-- Activities
-- Dive Sites
-- Equipment
-- Roles
-- Currencies
-- Transaction Categories
-- Users
-
-Financial transactions may be permanently deleted when entered incorrectly.
-
----
-
-## Future Improvements
-
-Potential future improvements include:
+Possible future improvements include:
 
 - REST API
 - .NET MAUI mobile client
 - Customer and diver profiles
-- Diver certification records
+- Certification records
 - Equipment assignment to reservations
-- Online public reservation system
-- Email notifications
-- SMS notifications
-- Advanced financial reporting
-- Excel export
-- PDF reporting
+- Public online reservations
+- Email and SMS notifications
+- Advanced reporting
+- Excel and PDF export
 - Docker support
 - Automated tests
 - Cloud deployment
 - Audit logs
 - Multi-location support
 
----
-
-## Development Status
-
-The project is actively being developed and improved.
-
-The current version includes the core operational modules required for a functional scuba diving center management system.
-
----
-
 ## Purpose
 
-This project was developed as a portfolio project demonstrating practical experience with:
+This project demonstrates practical experience with:
 
 - ASP.NET Core MVC
 - C#
@@ -1033,24 +541,8 @@ This project was developed as a portfolio project demonstrating practical experi
 - Responsive web interfaces
 - Git and GitHub
 
-The system is based on real operational requirements encountered in scuba diving center management.
-
----
+The system is based on real scuba diving center operational requirements.
 
 ## Author
 
 **Hakan Berat Demircan**
-
-GitHub:
-
-https://github.com/hakanberat
-
-Repository:
-
-https://github.com/hakanberat/DiveCenterManager
-
----
-
-## License
-
-This project is currently intended for educational and portfolio purposes.
