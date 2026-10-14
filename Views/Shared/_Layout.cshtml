@@ -21,6 +21,7 @@
         @pageTitle - Dive Hub Management System
     </title>
 
+    <!-- Favicon -->
     <link rel="icon"
           type="image/png"
           href="~/images/divehub-logo.png" />
@@ -28,12 +29,18 @@
     <link rel="apple-touch-icon"
           href="~/images/divehub-logo.png" />
 
+
+    <!-- Bootstrap -->
     <link rel="stylesheet"
           href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 
+    <!-- Bootstrap Icons - LOCAL -->
+    <link rel="stylesheet"
+          href="~/lib/bootstrap-icons/font/bootstrap-icons.css" />
+
+
+    <!-- Dive Hub Custom CSS -->
     <link rel="stylesheet"
           href="~/css/site.css"
           asp-append-version="true" />
@@ -46,9 +53,16 @@
 {
     <div class="app-shell">
 
-        <!-- SIDEBAR -->
+
+        <!-- =====================================================
+             SIDEBAR
+             ===================================================== -->
+
         <aside class="app-sidebar"
                id="appSidebar">
+
+
+            <!-- BRAND -->
 
             @if (User.IsInRole("Admin"))
             {
@@ -99,12 +113,18 @@
                 </a>
             }
 
+
+            <!-- NAVIGATION -->
+
             <nav class="sidebar-navigation">
 
+
                 <!-- MAIN -->
+
                 <div class="sidebar-section-title">
                     Main
                 </div>
+
 
                 @if (User.IsInRole("Admin"))
                 {
@@ -121,6 +141,7 @@
                     </a>
                 }
 
+
                 <a asp-controller="Reservations"
                    asp-action="Index"
                    class="sidebar-link @(currentController == "Reservations" ? "active" : "")">
@@ -133,6 +154,7 @@
 
                 </a>
 
+
                 <a asp-controller="Calendar"
                    asp-action="Index"
                    class="sidebar-link @(currentController == "Calendar" ? "active" : "")">
@@ -144,6 +166,7 @@
                     </span>
 
                 </a>
+
 
                 @if (User.IsInRole("Admin"))
                 {
@@ -166,6 +189,7 @@
                         Management
                     </div>
 
+
                     <a asp-controller="Activities"
                        asp-action="Index"
                        class="sidebar-link @(currentController == "Activities" ? "active" : "")">
@@ -177,6 +201,7 @@
                         </span>
 
                     </a>
+
 
                     <a asp-controller="DiveSites"
                        asp-action="Index"
@@ -190,6 +215,7 @@
 
                     </a>
 
+
                     <a asp-controller="Staff"
                        asp-action="Index"
                        class="sidebar-link @(currentController == "Staff" ? "active" : "")">
@@ -201,6 +227,7 @@
                         </span>
 
                     </a>
+
 
                     <a asp-controller="Roles"
                        asp-action="Index"
@@ -214,6 +241,7 @@
 
                     </a>
 
+
                     <a asp-controller="Boats"
                        asp-action="Index"
                        class="sidebar-link @(currentController == "Boats" ? "active" : "")">
@@ -226,6 +254,7 @@
 
                     </a>
 
+
                     <a asp-controller="Equipment"
                        asp-action="Index"
                        class="sidebar-link @(currentController == "Equipment" ? "active" : "")">
@@ -237,6 +266,7 @@
                         </span>
 
                     </a>
+
 
                     <a asp-controller="Users"
                        asp-action="Index"
@@ -257,6 +287,7 @@
                         Finance
                     </div>
 
+
                     <a asp-controller="Transactions"
                        asp-action="Index"
                        class="sidebar-link @(currentController == "Transactions" ? "active" : "")">
@@ -269,6 +300,7 @@
 
                     </a>
 
+
                     <a asp-controller="TransactionCategories"
                        asp-action="Index"
                        class="sidebar-link @(currentController == "TransactionCategories" ? "active" : "")">
@@ -280,6 +312,7 @@
                         </span>
 
                     </a>
+
 
                     <a asp-controller="Currencies"
                        asp-action="Index"
@@ -299,16 +332,24 @@
         </aside>
 
 
-        <!-- MOBILE OVERLAY -->
+        <!-- =====================================================
+             MOBILE SIDEBAR OVERLAY
+             ===================================================== -->
+
         <div class="sidebar-overlay"
              id="sidebarOverlay">
         </div>
 
 
-        <!-- MAIN AREA -->
+        <!-- =====================================================
+             MAIN
+             ===================================================== -->
+
         <div class="app-main">
 
+
             <!-- HEADER -->
+
             <header class="app-header">
 
                 <div class="app-header-left">
@@ -324,19 +365,24 @@
 
                     </button>
 
+
                     <h1 class="app-header-title">
                         @pageTitle
                     </h1>
 
                 </div>
 
+
                 <div class="app-user">
 
                     <div class="text-end app-user-details">
 
                         <div class="app-user-name">
+
                             @User.FindFirst("DisplayName")?.Value
+
                         </div>
+
 
                         <small class="text-muted">
 
@@ -356,6 +402,7 @@
                         </small>
 
                     </div>
+
 
                     <form asp-controller="Account"
                           asp-action="Logout"
@@ -380,6 +427,7 @@
 
 
             <!-- PAGE CONTENT -->
+
             <main class="app-content">
 
                 @RenderBody()
@@ -392,7 +440,10 @@
 }
 else
 {
-    <!-- LOGIN / SETUP PAGES -->
+
+    <!-- =====================================================
+         LOGIN / SETUP LAYOUT
+         ===================================================== -->
 
     <div class="container py-5">
 
@@ -400,7 +451,11 @@ else
 
             <img src="~/images/divehub-logo.png"
                  alt="Dive Hub"
-                 style="width: 95px; height: 95px; object-fit: contain;" />
+                 style="
+                    width: 95px;
+                    height: 95px;
+                    object-fit: contain;
+                 " />
 
             <h1 class="h4 mt-3 mb-1">
                 Dive Hub
@@ -412,13 +467,22 @@ else
 
         </div>
 
+
         <main>
+
             @RenderBody()
+
         </main>
 
     </div>
 }
 
+
+<!-- =========================================================
+     JAVASCRIPT
+     ========================================================= -->
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -426,9 +490,11 @@ else
         asp-append-version="true">
 </script>
 
+
 @await RenderSectionAsync(
     "Scripts",
-    required: false)
+    required: false
+)
 
 </body>
 

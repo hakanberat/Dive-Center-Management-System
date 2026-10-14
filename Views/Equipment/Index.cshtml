@@ -79,6 +79,8 @@
                             <th>Model</th>
                             <th>Serial Number</th>
                             <th>Quantity</th>
+                            <th>Price</th>
+                            <th style="min-width: 220px;">Notes</th>
                             <th>Status</th>
                             <th class="text-end">Actions</th>
                         </tr>
@@ -122,7 +124,46 @@
                                     @item.Quantity
                                 </td>
 
+                                <td class="equipment-price">
+
+                                    @if (item.UnitPrice.HasValue)
+                                    {
+                                        <strong>
+                                            @item.UnitPrice.Value.ToString("N2")
+                                        </strong>
+
+                                        @if (item.CurrencyId == 1)
+                                        {
+                                            <span class="text-muted">TRY</span>
+                                        }
+                                        else if (item.CurrencyId == 2)
+                                        {
+                                            <span class="text-muted">EUR</span>
+                                        }
+                                        else if (item.CurrencyId == 3)
+                                        {
+                                            <span class="text-muted">USD</span>
+                                        }
+                                        else if (item.CurrencyId == 4)
+                                        {
+                                            <span class="text-muted">GBP</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">-</span>
+                                    }
+
+                                </td>
+
+                                <td class="equipment-notes">
+                                    @(string.IsNullOrWhiteSpace(item.Notes)
+                                        ? "-"
+                                        : item.Notes)
+                                </td>
+
                                 <td>
+
                                     @if (item.IsActive)
                                     {
                                         <span class="badge bg-success">
@@ -135,6 +176,7 @@
                                             Inactive
                                         </span>
                                     }
+
                                 </td>
 
                                 <td class="text-end">

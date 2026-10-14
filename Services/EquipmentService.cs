@@ -25,6 +25,8 @@ public class EquipmentService
                 Brand,
                 Model,
                 Quantity,
+                UnitPrice,
+                CurrencyId,
                 Notes,
                 IsActive
             FROM Equipment
@@ -35,6 +37,7 @@ public class EquipmentService
                 OR SerialNumber LIKE '%' + @SearchTerm + '%'
                 OR Brand LIKE '%' + @SearchTerm + '%'
                 OR Model LIKE '%' + @SearchTerm + '%'
+                OR Notes LIKE '%' + @SearchTerm + '%'
             ORDER BY Name;
             """;
 
@@ -61,6 +64,8 @@ public class EquipmentService
                 Brand,
                 Model,
                 Quantity,
+                UnitPrice,
+                CurrencyId,
                 Notes,
                 IsActive
             FROM Equipment
@@ -85,6 +90,8 @@ public class EquipmentService
                 Brand,
                 Model,
                 Quantity,
+                UnitPrice,
+                CurrencyId,
                 Notes,
                 IsActive
             )
@@ -96,6 +103,8 @@ public class EquipmentService
                 @Brand,
                 @Model,
                 @Quantity,
+                @UnitPrice,
+                @CurrencyId,
                 @Notes,
                 @IsActive
             );
@@ -121,6 +130,8 @@ public class EquipmentService
                 Brand = @Brand,
                 Model = @Model,
                 Quantity = @Quantity,
+                UnitPrice = @UnitPrice,
+                CurrencyId = @CurrencyId,
                 Notes = @Notes,
                 IsActive = @IsActive
             WHERE Id = @Id;

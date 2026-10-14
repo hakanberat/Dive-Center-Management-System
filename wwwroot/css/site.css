@@ -1073,3 +1073,39 @@ body:has(.login-card) {
         font-size: 1.45rem;
     }
 }
+/* Equipment Notes
+-------------------------------------------------- */
+/* =========================================================
+   EQUIPMENT
+   ========================================================= */
+
+.equipment-price {
+    min-width: 105px;
+
+    white-space: nowrap;
+}
+
+.equipment-price strong {
+    color: var(--dh-text);
+
+    font-weight: 600;
+}
+
+.equipment-price .text-muted {
+    margin-left: 3px;
+
+    font-size: 0.82rem;
+}
+
+.equipment-notes {
+    min-width: 220px;
+    max-width: 320px;
+
+    white-space: normal;
+    overflow-wrap: anywhere;
+
+    color: var(--dh-muted);
+
+    font-size: 0.9rem;
+    line-height: 1.35;
+}

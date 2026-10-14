@@ -29,4 +29,8 @@ public class Equipment
     public string? Notes { get; set; }
 
     public bool IsActive { get; set; } = true;
+
+    public decimal? UnitPrice { get; set; }
+
+    public int? CurrencyId { get; set; }    
 }
